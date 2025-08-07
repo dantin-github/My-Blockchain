@@ -15,7 +15,7 @@ class Block{
     }
 
     mineBlock(difficulty){
-        while(this.hash.substring(0, difficulty) !== Array(difficulty + 1).join("3")){ // Using '3' as the target prefix for mining
+        while(this.hash.substring(0, difficulty) !== Array(difficulty + 1).join("0")){ // Using '0' as the target prefix for mining
             this.nonce++;
             this.hash = this.calculateHash();
         }
@@ -27,7 +27,7 @@ class Block{
 class Blockchain{
     constructor(){
         this.chain = [this.createGenesisBlock()];
-        this.difficulty = 6; // Difficulty for mining
+        this.difficulty = 4; // Difficulty for mining
     }
 
     createGenesisBlock() {
@@ -63,10 +63,13 @@ class Blockchain{
 let myCoin = new Blockchain();
 
 console.log('Mining block 1...');
-myCoin.addBlock(new Block(1, "01/02/2020", { amount: 4 }));
+myCoin.addBlock(new Block(1, "01/02/2020", { amount: 5 }));
 
 console.log('Mining block 2...');
 myCoin.addBlock(new Block(2, "01/03/2020", { amount: 10 }));
+
+myCoin.chain[1].data = { amount: 100 }; // Tampering with the data of block 1
+myCoin.isChainValid() ? console.log("Blockchain is valid") : console.log("Blockchain is not valid");
 
 
 
